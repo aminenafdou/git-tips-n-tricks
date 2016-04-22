@@ -75,6 +75,10 @@ Switched to branch 'master'</code></pre>
 					<p>Utilisez l'option <code>--word-diff</code> :</p>
 					<pre><code class="diff" data-noescape>Marre d'avoir un diff indiquant un changement sur toute la ligne
 pour le changement d'un seul <span class="hljs-deletion">[-caractere-]</span><span class="hljs-addition">{+caractère+}</span> ?</code></pre>
+					<p>Ou même l'option <code>--word-diff-regex=.</code> :</p>
+					<pre><code class="diff" data-noescape>Marre d'avoir un diff indiquant un changement sur toute la ligne
+pour le changement d'un seul caract<span class="hljs-deletion">[-e-]</span><span class="hljs-addition">{+è+}</span>re ?</code></pre>
+
 				</section>
 				<section>
 					<h2>Diff et sauts de lignes</h2>
@@ -94,6 +98,13 @@ pour le changement d'un seul <span class="hljs-deletion">[-caractere-]</span><sp
 						<dt><code>--ignore-space-at-eol</code></dt><dd>Ignore les espaces en fin de ligne</dd>
 						<dt><code>--ignore-space-change</code></dt><dd>Ignore les changements de valeurs d'espace.<br /> Pratique pour ignorer les changements d'indentation</dd>
 						<dt><code>--ignore-all-space</code></dt><dd>Ignore tout changement d'espace</dd>
+					</dl>
+				</section>
+				<section>
+					<h2>Encore du diff</h2>
+					<dl>
+						<dt><code>diff.renames</code></dt><dd>Utilisation automatique de l'option <code>--find-renames</code> qui va detecter les renommages</dd>
+						<dt><code>diff.mnemonicPrefix</code></dt><dd>Utilise des préfixes avec plus de sens que 'a' et 'b' dans les chemins de fichier : 'w'=working dir, 'i'=index, 'c'=commit</dd>
 					</dl>
 				</section>
 				<section>
@@ -126,14 +137,49 @@ h README.md</code></pre>
     unforget = update-index --no-assume-unchanged
     forgotten = ! git ls-files -v | grep ^[a-z]</code></pre>
 				</section>
+				<section class="fit">
+					<h2>Chercher l'erreur avec bisect</h2>
+					<p><code>git bisect</code> vous permet de faire une dichotomie pour trouver le commit (et donc le code) ayant provoqué un bug.</p>
+					<ol>
+						<li>Déterminer le dernier commit sans bug (par exemple la dernière version) = GOOD</li>
+						<li>Écrire un test permettant de vérifier la présence du bug</li>
+						<li>
+							Lancer <code>git bisect</code>
+							<pre><code>$ git bisect start HEAD GOOD</code></pre>
+						</li>
+						<li>Git va effectuer une dichotomie, tester alors chaque commit en lançant le test et indiquer s'il est correct avec <code>git bisect good</code> ou mauvais avec <code>git bisect bad</code></li>
+						<li>Trouver le bug dans le commit fautif</li>
+					</ol>
+				</section>
+				<section>
+					<h2>Retrouver vos commits avec reflog</h2>
+					<p>Git conserve un historique de toutes vos modification du <code>HEAD</code> via le reflog :</p>
+					<pre><code>$ git reflog
+3568a7f HEAD@{0}: checkout: moving from branch to master
+f3e305e HEAD@{1}: checkout: moving from master to branch
+3568a7f HEAD@{2}: checkout: moving from branch to master
+f3e305e HEAD@{3}: checkout: moving from master to branch
+3568a7f HEAD@{4}: commit: 4th commit
+6c68d48 HEAD@{5}: commit: fixup! 2nd commit
+e8353bb HEAD@{6}: commit: 3rd commit</code></pre>
+					<p>Très pratique pour retrouver vos anciens commits après un <code>commit --amend</code> ou un <code>rebase</code></p>
+				</section>
+				<section>
+					<h2>Filtrer vos logs</h2>
+					<dl>
+						<dt><code>--grep 'regex'</code></dt><dd>Filtrage sur le message de commit, pour trouver les commits référençant un ticket</dd>
+						<dt><code>-G 'regex'</code></dt><dd>Filtrage sur le contenu actif du diff</dd>
+						<dt><code>--until</code>, <code>--since</code></dt><dd>Filtrage sur la chronologie des commits</dd>
+					</dl>
+				</section>
 				<section>
 					<h2>Mais encore</h2>
 					<ul>
-						<li>Rechercher un commit fautif avec <code>bisect</code></li>
 						<li>Mettre de côté des modifications avec <code>stash</code></li>
 						<li>Activer la completion shell</li>
 						<li>Utiliser les méthodes de prompt <code>__git_ps1*</code> ou un outil tel que <code>git-prompt</code></li>
 						<li>Un cheat sheet bien sympa : <a href="http://ndpsoftware.com/git-cheatsheet.html">http://ndpsoftware.com/git-cheatsheet.html</a></li>
+						<li>Le HoL de <a href="https://twitter.com/porteneuve">Christophe Porteneuve</a> : <a href="http://bit.ly/devoxx-git">http://bit.ly/devoxx-git</a>
 						<li>Des astuces à partager ?</li>
 					</ul>
 				</section>
