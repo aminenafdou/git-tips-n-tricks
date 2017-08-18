@@ -123,19 +123,19 @@ $ git config --global alias.git '!git' # Commande système avec !</code></pre>
  %Cgreen(%cr) %C(bold blue)<%an>%Creset'"</code></pre>
 				</section>
 				<section class="fit">
-					<h2>Ignorer les modifications des fichiers traqués</h2>
+					<h2>Ignorer les modifs locales des fichiers traqués</h2>
 					<p>Si vous avez des fichiers toujours dans votre status mais que vous ne voulez jamais commiter :</p>
-					<pre><code>$ git update-index --assume-unchanged README.md</code></pre>
+					<pre><code>$ git update-index --skip-worktree README.md</code></pre>
 					<p>Pour lister les fichiers dans cet état :</p>
-					<pre><code>$ git ls-files -v | grep '^h'
-h README.md</code></pre>
+					<pre><code>$ git ls-files -v | grep '^S'
+S README.md</code></pre>
 					<p>Revenir en arrière :</p>
-					<pre><code>$ git update-index --no-assume-unchanged README.md</code></pre>
+					<pre><code>$ git update-index --no-skip-worktree README.md</code></pre>
 					<p>Pour simplifier ces commandes :</p>
 					<pre><code>[alias]
-    forget = update-index --assume-unchanged
-    unforget = update-index --no-assume-unchanged
-    forgotten = ! git ls-files -v | grep ^[a-z]</code></pre>
+    forget = update-index --skip-worktree
+    unforget = update-index --skip-worktree
+    forgotten = ! git ls-files -v | grep ^S</code></pre>
 				</section>
 				<section class="fit">
 					<h2>Chercher l'erreur avec bisect</h2>
